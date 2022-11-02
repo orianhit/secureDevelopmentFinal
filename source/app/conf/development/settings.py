@@ -17,6 +17,7 @@ SITE_ID = 1
 
 PASSWORD_HASHERS = [
     'accounts.hashers.CustomPasswordHasher',
+    # 'accounts.hashers.BadPasswordHasher',
 ]
 
 INSTALLED_APPS = [
