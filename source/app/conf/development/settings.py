@@ -15,6 +15,10 @@ ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
+PASSWORD_HASHERS = [
+    'accounts.hashers.CustomPasswordHasher',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,25 +83,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = os.path.join(CONTENT_DIR, 'tmp/emails')
-# EMAIL_HOST_USER = 'test@example.com'
-# DEFAULT_FROM_EMAIL = 'test@example.com'
-
-
-# EMAIL_HOST = 'smtp.sendgrid.net'
-# EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
-# EMAIL_HOST_PASSWORD = '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'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = 'orianda22@my.hit.ac.il' # this is the sendgrid email
-
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = ''
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
 
 DATABASES = {
     'default': {
@@ -149,16 +140,8 @@ SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', '
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-USE_I18N = True
 USE_L10N = True
 LANGUAGE_CODE = 'en'
-LANGUAGES = [
-    ('en', _('English')),
-    ('ru', _('Russian')),
-    ('zh-Hans', _('Simplified Chinese')),
-    ('fr', _('French')),
-    ('es', _('Spanish')),
-]
 
 TIME_ZONE = 'UTC'
 USE_TZ = True

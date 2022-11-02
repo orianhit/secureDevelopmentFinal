@@ -78,14 +78,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'app.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-DEFAULT_FROM_EMAIL = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'test@example.com'
+DEFAULT_FROM_EMAIL = 'test@example.com'
 
 DATABASES = {
     'default': {
@@ -139,16 +133,8 @@ EMAIL_ACTIVATION_AFTER_CHANGING = True
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-USE_I18N = True
 USE_L10N = True
 LANGUAGE_CODE = 'en'
-LANGUAGES = [
-    ('en', _('English')),
-    ('ru', _('Russian')),
-    ('zh-Hans', _('Simplified Chinese')),
-    ('fr', _('French')),
-    ('es', _('Spanish')),
-]
 
 TIME_ZONE = 'UTC'
 USE_TZ = True
