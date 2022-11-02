@@ -1,0 +1,5 @@
+Django
+django-bootstrap4
+gunicorn
+django-axes
+django-password-validators
