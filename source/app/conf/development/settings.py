@@ -20,6 +20,8 @@ PASSWORD_HASHERS = [
     # 'accounts.hashers.BadPasswordHasher',
 ]
 
+# DEFAULT_HASHING_ALGORITHM = 'sha1'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

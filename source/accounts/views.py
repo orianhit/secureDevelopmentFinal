@@ -20,7 +20,7 @@ from django.views.generic import View, FormView
 from django.conf import settings
 
 from .utils import (
-    send_reset_password_email, send_forgotten_username_email, send_activation_change_email,
+    send_reset_password_email, send_forgotten_username_email,
 )
 from .forms import (
     SignInViaUsernameForm, SignInViaEmailForm, SignInViaEmailOrUsernameForm, SignUpForm,
@@ -126,7 +126,7 @@ class RestorePasswordView(GuestOnlyView, FormView):
 
     def form_valid(self, form):
         user = form.user_cache
-        token = default_token_generator.make_token(user)
+        token = default_token_generator._make_token_with_timestamp(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
 
         if isinstance(uid, bytes):
