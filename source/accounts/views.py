@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
-from django.contrib.auth.tokens import default_token_generator
+from tokens import custom_token_generator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
     LogoutView as BaseLogoutView, PasswordChangeView as BasePasswordChangeView,
@@ -126,7 +126,7 @@ class RestorePasswordView(GuestOnlyView, FormView):
 
     def form_valid(self, form):
         user = form.user_cache
-        token = default_token_generator._make_token_with_timestamp(user)
+        token = custom_token_generator._make_token_with_timestamp(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
 
         if isinstance(uid, bytes):
@@ -215,6 +215,7 @@ class ChangePasswordView(BasePasswordChangeView):
 
 class RestorePasswordConfirmView(BasePasswordResetConfirmView):
     template_name = 'accounts/restore_password_confirm.html'
+    token_generator = custom_token_generator
 
     def form_valid(self, form):
         # Change the password
