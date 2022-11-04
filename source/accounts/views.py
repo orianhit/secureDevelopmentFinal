@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
-from tokens import custom_token_generator
+from accounts.tokens import custom_token_generator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
     LogoutView as BaseLogoutView, PasswordChangeView as BasePasswordChangeView,
