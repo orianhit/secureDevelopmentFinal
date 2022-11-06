@@ -96,8 +96,8 @@ EMAIL_HOST_PASSWORD = ''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mysql',
-        'USER': 'root',
+        'NAME': 'cyber_proj',
+        'USER': 'cyber_user',
         'PASSWORD': '123456',
         'HOST': 'db',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
