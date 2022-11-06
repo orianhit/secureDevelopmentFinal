@@ -24,9 +24,6 @@ services:
       - "8000:8000"
     environment:
       - DJANGO_DATABASE=docker
-    volumes:
-      - .:/app
-      - /tmp/app/mysqld:/run/mysqld
     depends_on:
       - db
     networks:
