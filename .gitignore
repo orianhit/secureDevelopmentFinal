@@ -10,4 +10,5 @@ env/
 tmp/
 venv/
 
+db
 source/db.sqlite3
