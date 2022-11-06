@@ -94,15 +94,22 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
 DATABASES = {
-    'default': {
+    'local': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'docker': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cyber_proj',
         'USER': 'cyber_user',
         'PASSWORD': '123456',
-        'HOST': 'db',   # Or an IP Address that your DB is hosted on
+        'HOST': 'db',
         'PORT': '3306',
     }
 }
+
+default_database = os.environ.get('DJANGO_DATABASE', 'local')
+DATABASES['default'] = DATABASES[default_database]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
