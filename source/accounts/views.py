@@ -25,8 +25,10 @@ from .utils import (
 from .forms import (
     SignInViaUsernameForm, SignInViaEmailForm, SignInViaEmailOrUsernameForm, SignUpForm,
     RestorePasswordForm, RestorePasswordViaEmailOrUsernameForm, RemindUsernameForm,
-    ChangeProfileForm, ChangeEmailForm,
+    ChangeProfileForm, ChangeEmailForm, CustomerForm
 )
+
+from .models import Customer
 
 class GuestOnlyView(View):
     def dispatch(self, request, *args, **kwargs):
@@ -232,3 +234,18 @@ class RestorePasswordDoneView(BasePasswordResetDoneView):
 
 class LogOutView(LoginRequiredMixin, BaseLogoutView):
     template_name = 'accounts/log_out.html'
+
+
+class CustomerView(LoginRequiredMixin, FormView):
+    template_name = 'accounts/customer_create.html'
+    form_class = CustomerForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["customers"] = Customer.objects.all()
+        return context
+
+    def form_valid(self, form):
+        form.save()
+
+        return redirect('accounts:customer')

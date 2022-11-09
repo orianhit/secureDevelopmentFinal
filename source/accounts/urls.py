@@ -4,6 +4,7 @@ from .views import (
     LogInView, RemindUsernameView, SignUpView, LogOutView,
     ChangeEmailView, ChangeProfileView, ChangePasswordView,
     RestorePasswordView, RestorePasswordDoneView, RestorePasswordConfirmView,
+    CustomerView
 )
 
 app_name = 'accounts'
@@ -23,4 +24,6 @@ urlpatterns = [
     path('change/profile/', ChangeProfileView.as_view(), name='change_profile'),
     path('change/password/', ChangePasswordView.as_view(), name='change_password'),
     path('change/email/', ChangeEmailView.as_view(), name='change_email'),
+
+    path('customer/', CustomerView.as_view(), name='customer'),
 ]

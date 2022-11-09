@@ -8,6 +8,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
+from django.forms import ModelForm
+
+from .models import Customer
 
 
 class UserCacheMixin:
@@ -151,3 +154,9 @@ class ChangeEmailForm(forms.Form):
 
 class RemindUsernameForm(EmailForm):
     pass
+
+
+class CustomerForm(ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['name', 'email']
