@@ -15,11 +15,25 @@
         <button class="btn btn-success">{% trans 'Create' %}</button>
 
     </form>
+<h3> </h3>
+     <h5> Customers Registered in Comunication_LTD </h5>
+<h3> </h3>
+<table  border="1px solid black"  width="300" cellspacing="5" cellpadding="5"  border="1px solid black"
+   border-collapse="collapse"  >
+          <tr>
+              <th >  Customer Name </th>
+              <th  >  Customer Email </th>
+         </tr>
 
-    {% for customer in customers %}
-        <h3>name => {{ customer.name }}</h3>
-        <h4>email => {{ customer.email }}</h4>
-        <p></p>
+
+    {% for customer in custfomers %}
+     <tr >
+    <td >  {{ customer.name }} </td>
+    <td  > {{ customer.email }} </td>
+     </tr>
+
+<!--        <h4>name: {{ customer.name }}</h4> <h4>email: {{ customer.email }}</h4>-->
+<!--        <p></p>-->
     {% endfor %}
-
+ </table>
 {% endblock %}
