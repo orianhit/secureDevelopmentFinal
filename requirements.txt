@@ -4,3 +4,4 @@ gunicorn
 django-axes
 django-password-validators
 pymysql
+cryptography
