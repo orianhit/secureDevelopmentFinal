@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    
+
     # Vendor apps
     'bootstrap4',
 
@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'axes',
     'django_password_validators',
     'django_password_validators.password_history',
+
+    "django_extensions"
+
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -122,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django_password_validators.password_character_requirements.password_validation.PasswordCharacterValidator',
         'OPTIONS': {
             'min_length_digit': 1,
-            #'min_length_alpha': 2,
+            # 'min_length_alpha': 2,
             'min_length_special': 1,
             'min_length_lower': 1,
             'min_length_upper': 1,
@@ -150,7 +153,8 @@ LOGIN_URL = 'accounts:log_in'
 
 RESTORE_PASSWORD_VIA_EMAIL_OR_USERNAME = False
 
-SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+SIGN_UP_FIELDS = ['username', 'first_name',
+                  'last_name', 'email', 'password1', 'password2']
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 

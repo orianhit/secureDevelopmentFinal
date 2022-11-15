@@ -5,3 +5,6 @@ django-axes
 django-password-validators
 pymysql
 cryptography
+pyOpenSSL
+django-extensions 
+Werkzeug
