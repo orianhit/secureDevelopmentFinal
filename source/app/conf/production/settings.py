@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'axes',
     'django_password_validators',
     'django_password_validators.password_history',
+
+    "django_extensions"
+
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -158,7 +161,8 @@ LOCALE_PATHS = [
     os.path.join(CONTENT_DIR, 'locale')
 ]
 
-SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+SIGN_UP_FIELDS = ['username', 'first_name',
+                  'last_name', 'email', 'password1', 'password2']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
