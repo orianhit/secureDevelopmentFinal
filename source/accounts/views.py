@@ -18,6 +18,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import View, FormView
 from django.conf import settings
+from django.db import connections
 
 from .utils import (
     send_reset_password_email, send_forgotten_username_email,
@@ -30,6 +31,22 @@ from .forms import (
 
 from .models import Customer
 
+
+class BadFormView(FormView):
+    def bad_sqlishow(self, form):
+        with connections['local'].cursor() as cursor:
+            name = form.data.get('name', form.data.get('first_name', form.data['username']))
+            cursor.execute(f"SELECT * FROM accounts_customer WHERE name = '{name}'")
+            return self.render_to_response(
+                self.get_context_data(
+                    form=form,
+                    new_customers=[
+                        {'name': row[1] if len(row) > 1 else row[0], 'email': row[2] if len(row) > 2 else ''} for
+                        row in cursor.fetchall()]
+                )
+            )
+
+
 class GuestOnlyView(View):
     def dispatch(self, request, *args, **kwargs):
         # Redirect to the index page if the user already authenticated
@@ -39,7 +56,7 @@ class GuestOnlyView(View):
         return super().dispatch(request, *args, **kwargs)
 
 
-class LogInView(GuestOnlyView, FormView):
+class LogInView(GuestOnlyView, BadFormView):
     template_name = 'accounts/log_in.html'
 
     @staticmethod
@@ -78,6 +95,10 @@ class LogInView(GuestOnlyView, FormView):
 
     def form_invalid(self, form):
         request = self.request
+
+        if settings.BWAPP:
+            return self.bad_sqlishow(form)
+
         user = authenticate(
             request=request,
             username=form.cleaned_data.get('username', form.data['username']),
@@ -85,7 +106,6 @@ class LogInView(GuestOnlyView, FormView):
         )
 
         messages.error(self.request, _('Invalid username or password'))
-
 
         return self.redirect_by_fieldname(request)
 
@@ -97,7 +117,7 @@ class LogInView(GuestOnlyView, FormView):
         return redirect(settings.LOGIN_REDIRECT_URL)
 
 
-class SignUpView(GuestOnlyView, FormView):
+class SignUpView(GuestOnlyView, BadFormView):
     template_name = 'accounts/sign_up.html'
     form_class = SignUpForm
 
@@ -113,6 +133,9 @@ class SignUpView(GuestOnlyView, FormView):
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         messages.success(request, _('You are successfully signed up!'))
+
+        if settings.BWAPP:
+            return self.bad_sqlishow(form)
 
         return redirect('index')
 
@@ -237,7 +260,7 @@ class LogOutView(LoginRequiredMixin, BaseLogoutView):
     template_name = 'accounts/log_out.html'
 
 
-class CustomerView(LoginRequiredMixin, FormView):
+class CustomerView(LoginRequiredMixin, BadFormView):
     template_name = 'accounts/customer_create.html'
     form_class = CustomerForm
 
@@ -248,5 +271,8 @@ class CustomerView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         form.save()
+
+        if settings.BWAPP:
+            return self.bad_sqlishow(form)
 
         return redirect('accounts:customer')

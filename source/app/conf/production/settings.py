@@ -206,3 +206,5 @@ LOGGING = {
         },
     },
 }
+
+BWAPP = False
