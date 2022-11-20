@@ -15,11 +15,16 @@ IS_PRODUCTION=1
 DEBUG=0
 EMAIL_HOST=smtp```
 
-3. log in docker is under `/app/source/debug.log` 
-4. password length is determined IN `AUTH_PASSWORD_VALIDATORS -> UserAttributeSimilarityValidator -> OPTIONS -> min_length`
-5. blacklisted password should be in `blacklist_passwords.txt` all lower-cased!
-6. password hash is determined using `PASSWORD_HASHERS=` options is in https://docs.djangoproject.com/en/4.1/topics/auth/passwords/
+3. Log in docker is under `/app/source/debug.log` 
+4. Password length is determined IN `AUTH_PASSWORD_VALIDATORS -> UserAttributeSimilarityValidator -> OPTIONS -> min_length`
+5. Blacklisted password should be in `blacklist_passwords.txt` all lower-cased!
+6. Password hash is determined using `PASSWORD_HASHERS=` options is in https://docs.djangoproject.com/en/4.1/topics/auth/passwords/
 
 7. password dict is from https://github.com/danielmiessler/SecLists/tree/aad07fff50ca37af2926de4d07ff670bf3416fbc/Passwords
 
  
+## SQL INJECTION
+- Use this text for example `' UNION  SELECT 1,2,name FROM sqlite_master --`
+  - In `/accounts/customer/` should be under name
+  - In `/accounts/sign-up/` should be under first name
+  - In `/accounts/log-in/` should be under name
