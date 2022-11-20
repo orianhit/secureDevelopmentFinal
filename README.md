@@ -24,7 +24,12 @@ EMAIL_HOST=smtp```
 
  
 ## SQL INJECTION
+- should change config `BWAPP` to `True`
 - Use this text for example `' UNION  SELECT 1,2,name FROM sqlite_master --`
   - In `/accounts/customer/` should be under name
   - In `/accounts/sign-up/` should be under first name
   - In `/accounts/log-in/` should be under name
+
+## ESS
+- todo: config
+- todo: how to simulate
