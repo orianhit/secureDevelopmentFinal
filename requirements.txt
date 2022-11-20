@@ -1,7 +1,7 @@
 Django
 django-bootstrap4
-gunicorn
 django-axes
 django-password-validators
 pymysql
 cryptography
+psycopg2

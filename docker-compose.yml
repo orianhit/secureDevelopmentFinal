@@ -1,15 +1,12 @@
 version: '3'
 services:
   db:
+    container_name: db
     image: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456
-      - MYSQL_DATABASE=cyber_proj
-      - MYSQL_USER=cyber_user
-      - MYSQL_PASSWORD=123456
-      - MYSQL_ROOT_HOST=%
+    env_file:
+      - .env.mysql
     volumes:
-      - /tmp/app/mysqld:/var/run/mysqld
+      - ./mysqld:/var/run/mysqld
       - ./db:/var/lib/mysql
     networks:
       - db
@@ -18,21 +15,33 @@ services:
       interval: 1s
       timeout: 1s
       retries: 60
+  smtp:
+    container_name: smtp
+    image: msztolcman/sendria:v2.2.2.0
+    networks:
+      - smtp
+    ports:
+      - "1080:1080"
   web:
-    build: .
+    container_name: application
+    build: ./
+    command: uwsgi --master --https :8000,RootCA.crt,RootCA.key --module app.wsgi --static-map /static=content/static
     ports:
       - "8000:8000"
-    environment:
-      - DJANGO_DATABASE=docker
+    env_file:
+      - .env.application
     depends_on:
+      - smtp
       - db
     networks:
-      - external-net
+      - smtp
       - db
 
 networks:
-  external-net:
-    external:
-      name: external-net
   db:
     driver: bridge
+  smtp:
+    driver: bridge
+
+volumes:
+  postgres_data:

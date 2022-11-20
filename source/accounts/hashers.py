@@ -5,7 +5,7 @@ from django.utils.crypto import constant_time_compare
 
 
 class CustomPasswordHasher(BasePasswordHasher):
-    algorithm = "pbkdf2_sha256_custom"
+    algorithm = "cstm"
     iterations = 260000
     # digest = hashlib.sha256
 
@@ -13,7 +13,7 @@ class CustomPasswordHasher(BasePasswordHasher):
         assert password is not None
         assert salt and '$' not in salt
         iterations = iterations or self.iterations
-        hash = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), iterations)
+        hash = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), iterations,  dklen=24)
         return "%s$%d$%s$%s" % (self.algorithm, iterations, salt, hash)
 
     def decode(self, encoded):

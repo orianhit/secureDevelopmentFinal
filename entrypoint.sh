@@ -1,10 +1,10 @@
 #!/bin/bash
 
 while !  wget db:3306; do 
-	echo 'w8ing for db'
-	sleep 1 
+	sleep 5
 done
 
+python /app/source/manage.py collectstatic --noinput
 python /app/source/manage.py migrate
 
 # This will exec the CMD from your Dockerfile

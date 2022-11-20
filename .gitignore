@@ -11,4 +11,9 @@ tmp/
 venv/
 
 db
+mysqld
 source/db.sqlite3
+
+/source/RootCA.*
+.env.application
+.env.mysql

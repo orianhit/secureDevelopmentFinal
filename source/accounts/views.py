@@ -128,7 +128,7 @@ class RestorePasswordView(GuestOnlyView, FormView):
 
     def form_valid(self, form):
         user = form.user_cache
-        token = custom_token_generator._make_token_with_timestamp(user)
+        token = custom_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
 
         if isinstance(uid, bytes):

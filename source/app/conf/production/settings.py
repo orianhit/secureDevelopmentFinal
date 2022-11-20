@@ -5,11 +5,11 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = dirname(dirname(dirname(dirname(os.path.abspath(__file__)))))
 CONTENT_DIR = os.path.join(BASE_DIR, 'content')
 
-SECRET_KEY = '3d305kajG5Jy8KBafCMpHwDIsNi0SqVaW'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 DEBUG = False
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    '*'
 ]
 
 SITE_ID = 1
@@ -83,15 +83,29 @@ TEMPLATES = [
 WSGI_APPLICATION = 'app.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_USER = 'test@example.com'
-DEFAULT_FROM_EMAIL = 'test@example.com'
+EMAIL_HOST = 'smtp'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 1025
+EMAIL_USE_TLS = False
 
 DATABASES = {
-    'default': {
+    'local': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'docker': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cyber_proj',
+        'USER': 'cyber_user',
+        'PASSWORD': '123456',
+        'HOST': 'db',
+        'PORT': '3306',
     }
 }
+
+default_database = os.environ.get('DJANGO_DATABASE', 'local')
+DATABASES['default'] = DATABASES[default_database]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django_password_validators.password_character_requirements.password_validation.PasswordCharacterValidator',
         'OPTIONS': {
             'min_length_digit': 1,
-            # 'min_length_alpha': 2,
+            #'min_length_alpha': 2,
             'min_length_special': 1,
             'min_length_lower': 1,
             'min_length_upper': 1,
@@ -112,13 +126,10 @@ AUTH_PASSWORD_VALIDATORS = [
         }
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
             'min_length': 10,
         }
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -176,3 +187,22 @@ SECURE_FRAME_DENY = True
 AXES_COOLOFF_TIME = 0.5
 AXES_FAILURE_LIMIT = 3
 AXES_ONLY_USER_FAILURES = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
