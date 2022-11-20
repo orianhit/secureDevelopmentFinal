@@ -27,9 +27,12 @@ services:
     build: ./
     command: uwsgi --master --https :8000,RootCA.crt,RootCA.key --module app.wsgi --static-map /static=content/static
     ports:
-      - "8000:8000"
+      - "9000:8000"
     env_file:
       - .env.application
+    volumes:
+      - ./source/RootCA.crt:/app/source/RootCA.crt
+      - ./source/RootCA.key:/app/source/RootCA.key
     depends_on:
       - smtp
       - db

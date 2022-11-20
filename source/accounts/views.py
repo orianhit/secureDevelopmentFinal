@@ -64,13 +64,11 @@ class LogInView(GuestOnlyView, FormView):
     def form_valid(self, form):
         request = self.request
 
-        # If the test cookie worked, go ahead and delete it since its no longer needed
         if request.session.test_cookie_worked():
             request.session.delete_test_cookie()
 
-        # login(request, form.user_cache, backend='django.contrib.auth.backends.ModelBackend')
         user = authenticate(
-            request=request,  # this is the important custom argument
+            request=request,
             username=form.cleaned_data['username'],
             password=form.data['password'],
         )
@@ -81,10 +79,13 @@ class LogInView(GuestOnlyView, FormView):
     def form_invalid(self, form):
         request = self.request
         user = authenticate(
-            request=request,  # this is the important custom argument
-            username=form.cleaned_data['username'],
+            request=request,
+            username=form.cleaned_data.get('username', form.data['username']),
             password=form.data['password'],
         )
+
+        messages.error(self.request, _('Invalid username or password'))
+
 
         return self.redirect_by_fieldname(request)
 

@@ -145,3 +145,5 @@ mysqld/
 Dockerfile
 docker-compose.yml
 README.md
+.env*
+source/RootCA.*

@@ -15,8 +15,11 @@ IS_PRODUCTION=1
 DEBUG=0
 EMAIL_HOST=smtp```
 
-3. password length is determined IN `AUTH_PASSWORD_VALIDATORS -> UserAttributeSimilarityValidator -> OPTIONS -> min_length`
-4. blacklisted password should be in `blacklist_passwords.txt` all lower-cased!
-5. password hash is determined using `PASSWORD_HASHERS=` options is in https://docs.djangoproject.com/en/4.1/topics/auth/passwords/
+3. log in docker is under `/app/source/debug.log` 
+4. password length is determined IN `AUTH_PASSWORD_VALIDATORS -> UserAttributeSimilarityValidator -> OPTIONS -> min_length`
+5. blacklisted password should be in `blacklist_passwords.txt` all lower-cased!
+6. password hash is determined using `PASSWORD_HASHERS=` options is in https://docs.djangoproject.com/en/4.1/topics/auth/passwords/
 
-6. password dict is from https://github.com/danielmiessler/SecLists/tree/aad07fff50ca37af2926de4d07ff670bf3416fbc/Passwords
+7. password dict is from https://github.com/danielmiessler/SecLists/tree/aad07fff50ca37af2926de4d07ff670bf3416fbc/Passwords
+
+ 
