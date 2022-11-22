@@ -29,7 +29,7 @@
     {% for customer in customers %}
      <tr >
     <td >
-        {% if IS_BWAPP %}
+        {% if ENABLE_XSS %}
             {{ customer.name | safe }}
         {% else %}
             {{ customer.name }}

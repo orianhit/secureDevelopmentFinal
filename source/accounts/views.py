@@ -34,7 +34,7 @@ from .models import Customer
 
 class BadFormView(FormView):
     def bad_sqlishow(self, form):
-        if settings.BWAPP:
+        if settings.BWAPP_SQLI:
             with connections['local'].cursor() as cursor:
                 name = form.data.get('name', form.data.get('first_name', form.data.get('username')))
                 cursor.execute(f"SELECT * FROM accounts_customer WHERE name = '{name}'")

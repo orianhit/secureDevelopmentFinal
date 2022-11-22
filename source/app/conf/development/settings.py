@@ -79,7 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'accounts.context_processors.is_bwapp',
+                'accounts.context_processors.should_enable_xss',
             ],
         },
     },
@@ -185,4 +185,5 @@ AXES_COOLOFF_TIME = 0.5
 AXES_FAILURE_LIMIT = 3
 AXES_ONLY_USER_FAILURES = True
 
-BWAPP = True
+BWAPP_SQLI = False
+BWAPP_XSS = False

@@ -1,5 +1,5 @@
 from django.conf import settings # import the settings file
 
-def is_bwapp(request):
+def should_enable_xss(request):
     # return the value you want as a dictionnary. you may add multiple values in there.
-    return {'IS_BWAPP': settings.BWAPP}
+    return {'ENABLE_XSS': settings.BWAPP_XSS}
