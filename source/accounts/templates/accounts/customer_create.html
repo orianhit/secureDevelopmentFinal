@@ -28,7 +28,13 @@
 
     {% for customer in customers %}
      <tr >
-    <td >  {{ customer.name }} </td>
+    <td >
+        {% if IS_BWAPP %}
+            {{ customer.name | safe }}
+        {% else %}
+            {{ customer.name }}
+        {% endif %}
+    </td>
     <td  > {{ customer.email }} </td>
      </tr>
     {% endfor %}

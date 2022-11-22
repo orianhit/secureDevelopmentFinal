@@ -34,17 +34,16 @@ from .models import Customer
 
 class BadFormView(FormView):
     def bad_sqlishow(self, form):
-        with connections['local'].cursor() as cursor:
-            name = form.data.get('name', form.data.get('first_name', form.data['username']))
-            cursor.execute(f"SELECT * FROM accounts_customer WHERE name = '{name}'")
-            return self.render_to_response(
-                self.get_context_data(
-                    form=form,
-                    new_customers=[
-                        {'name': row[1] if len(row) > 1 else row[0], 'email': row[2] if len(row) > 2 else ''} for
-                        row in cursor.fetchall()]
-                )
-            )
+        if settings.BWAPP:
+            with connections['local'].cursor() as cursor:
+                name = form.data.get('name', form.data.get('first_name', form.data.get('username')))
+                cursor.execute(f"SELECT * FROM accounts_customer WHERE name = '{name}'")
+                new_customers = [
+                    {'name': row[1] if len(row) > 1 else row[0], 'email': row[2] if len(row) > 2 else ''} for
+                    row in cursor.fetchall()]
+                for customer in new_customers:
+                    message = f"new customer: name={customer['name']} and email={customer['email']}"
+                    messages.success(self.request, _(message))
 
 
 class GuestOnlyView(View):
@@ -96,8 +95,7 @@ class LogInView(GuestOnlyView, BadFormView):
     def form_invalid(self, form):
         request = self.request
 
-        if settings.BWAPP:
-            return self.bad_sqlishow(form)
+        self.bad_sqlishow(form)
 
         user = authenticate(
             request=request,
@@ -134,8 +132,7 @@ class SignUpView(GuestOnlyView, BadFormView):
 
         messages.success(request, _('You are successfully signed up!'))
 
-        if settings.BWAPP:
-            return self.bad_sqlishow(form)
+        self.bad_sqlishow(form)
 
         return redirect('index')
 
@@ -272,7 +269,6 @@ class CustomerView(LoginRequiredMixin, BadFormView):
     def form_valid(self, form):
         form.save()
 
-        if settings.BWAPP:
-            return self.bad_sqlishow(form)
+        self.bad_sqlishow(form)
 
         return redirect('accounts:customer')
