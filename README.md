@@ -6,15 +6,18 @@
 2. create files with this content (docker-compose envs):
    1. env for mysql
       1. file_name: `.env.mysql`
-      2. content: ```ini
+      2. content: 
+```ini
 MYSQL_ROOT_PASSWORD=123456
 MYSQL_DATABASE=cyber_proj
 MYSQL_USER=cyber_user
 MYSQL_PASSWORD=123456
-MYSQL_ROOT_HOST=%```
+MYSQL_ROOT_HOST=%
+```
    2. env for application
       1. file_name: `.env.application`
-      2. content: ```ini
+      2. content: 
+```ini
 DJANGO_SECRET_KEY=3d305kajG5Jy8KBafCMpHwDIsNi0SqVaW
 IS_PRODUCTION=1
 DEBUG=0
