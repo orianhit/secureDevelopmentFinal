@@ -1,5 +1,6 @@
 import os
 import warnings
+from distutils.util import strtobool
 from django.utils.translation import gettext_lazy as _
 from os.path import dirname
 
@@ -99,22 +100,11 @@ else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DATABASES = {
-    'local': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'docker': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cyber_proj',
-        'USER': 'cyber_user',
-        'PASSWORD': '123456',
-        'HOST': 'db',
-        'PORT': '3306',
     }
 }
-
-default_database = os.environ.get('DJANGO_DATABASE', 'local')
-DATABASES['default'] = DATABASES[default_database]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -185,5 +175,6 @@ AXES_COOLOFF_TIME = 0.5
 AXES_FAILURE_LIMIT = 3
 AXES_ONLY_USER_FAILURES = True
 
-BWAPP_SQLI = False
-BWAPP_XSS = False
+BWAPP_SQLI = strtobool(os.environ.get('BWAPP_SQLI', 'False'))
+BWAPP_XSS = strtobool(os.environ.get('BWAPP_XSS', 'False'))
+CORS_ORIGIN_ALLOW_ALL = strtobool(os.environ.get('CORS_ORIGIN_ALLOW_ALL', 'False'))

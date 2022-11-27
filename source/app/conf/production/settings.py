@@ -1,5 +1,6 @@
 import os
 from os.path import dirname
+from distutils.util import strtobool
 from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = dirname(dirname(dirname(dirname(os.path.abspath(__file__)))))
@@ -91,22 +92,15 @@ EMAIL_PORT = 1025
 EMAIL_USE_TLS = False
 
 DATABASES = {
-    'local': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'docker': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cyber_proj',
-        'USER': 'cyber_user',
-        'PASSWORD': '123456',
+        'NAME': os.environ.get('MYSQL_DATABASE', ''),
+        'USER': os.environ.get('MYSQL_USER', ''),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD', ''),
         'HOST': 'db',
         'PORT': '3306',
     }
 }
-
-default_database = os.environ.get('DJANGO_DATABASE', 'local')
-DATABASES['default'] = DATABASES[default_database]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -208,5 +202,6 @@ LOGGING = {
     },
 }
 
-BWAPP_SQLI = False
-BWAPP_XSS = False
+BWAPP_SQLI = strtobool(os.environ.get('BWAPP_SQLI', 'False'))
+BWAPP_XSS = strtobool(os.environ.get('BWAPP_XSS', 'False'))
+CORS_ORIGIN_ALLOW_ALL = strtobool(os.environ.get('CORS_ORIGIN_ALLOW_ALL', 'False'))

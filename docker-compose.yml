@@ -10,6 +10,8 @@ services:
       - ./db:/var/lib/mysql
     networks:
       - db
+    ports:
+      - "3306:3306"
     healthcheck:
       test: "mysqladmin ping -h localhost"
       interval: 1s
@@ -28,8 +30,13 @@ services:
     command: uwsgi --master --https :8000,RootCA.crt,RootCA.key --module app.wsgi --static-map /static=content/static
     ports:
       - "9000:8000"
+    environment:
+      BWAPP_SQLI: True
+      BWAPP_XSS: False
+      CORS_ORIGIN_ALLOW_ALL: False
     env_file:
       - .env.application
+      - .env.mysql
     volumes:
       - ./source/RootCA.crt:/app/source/RootCA.crt
       - ./source/RootCA.key:/app/source/RootCA.key

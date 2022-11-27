@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
 from accounts.tokens import custom_token_generator
@@ -35,16 +38,26 @@ from .models import Customer
 class BadFormView(FormView):
     def bad_sqlishow(self, form):
         if settings.BWAPP_SQLI:
-            with connections['local'].cursor() as cursor:
-                name = form.data.get('name', form.data.get('first_name', form.data.get('username')))
-                cursor.execute(f"SELECT * FROM accounts_customer WHERE name = '{name}'")
-                new_customers = [
-                    {'name': row[1] if len(row) > 1 else row[0], 'email': row[2] if len(row) > 2 else ''} for
-                    row in cursor.fetchall()]
-                for customer in new_customers:
-                    message = f"new customer: name={customer['name']} and email={customer['email']}"
-                    messages.success(self.request, _(message))
+            with connections['default'].cursor() as cursor:
+                try:
+                    name = form.data.get('name', form.data.get('first_name', form.data.get('username', form.data.get('email_or_username'))))
+                    cursor.execute(self._get_query_by_db(name))
+                    new_customers = [
+                        {'email': row[1] if len(row) > 1 else row[0], 'name': row[2] if len(row) > 2 else ''} for
+                        row in cursor.fetchall()]
+                    for customer in new_customers:
+                        message = f"new customer: name={customer['name']} and email={customer['email']}"
+                        messages.success(self.request, _(message))
+                except Exception as ex:
+                    logger.error(f"failed to create customers message for {name}")
+                    logger.error(ex)
 
+    @staticmethod
+    def _get_query_by_db(name):
+        if 'sqlite' in settings.DATABASES['default']['ENGINE']:
+            return f"SELECT * FROM accounts_customer WHERE name = '{name}'"
+        else:
+            return f"SELECT * FROM accounts_customer WHERE name = '{name}'"
 
 class GuestOnlyView(View):
     def dispatch(self, request, *args, **kwargs):
@@ -83,9 +96,11 @@ class LogInView(GuestOnlyView, BadFormView):
         if request.session.test_cookie_worked():
             request.session.delete_test_cookie()
 
+        logger.error(form.cleaned_data)
+
         user = authenticate(
             request=request,
-            username=form.cleaned_data['username'],
+            username=form.cleaned_data.get('email_or_username', form.cleaned_data.get('username')),
             password=form.data['password'],
         )
         login(request, user)
@@ -99,7 +114,7 @@ class LogInView(GuestOnlyView, BadFormView):
 
         user = authenticate(
             request=request,
-            username=form.cleaned_data.get('username', form.data['username']),
+            username=form.cleaned_data.get('username', form.data.get('email_or_username')),
             password=form.data['password'],
         )
 
