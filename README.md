@@ -23,6 +23,16 @@ IS_PRODUCTION=1
 DEBUG=0
 EMAIL_HOST=smtp
 ```
+    3. env for application if we want REAL email sending
+        1. file_name: `.env.application`
+        2. content:
+```ini
+DJANGO_SECRET_KEY=3d305kajG5Jy8KBafCMpHwDIsNi0SqVaW
+IS_PRODUCTION=1
+DEBUG=0
+EMAIL_HOST_PASSWORD='sltwurlffnlknzxd'
+EMAIL_HOST_USER=securedevelopmentfinal@gmail.com
+```
 
 3. logs inside docker is written to file in this path `/app/source/debug.log` 
 4. Password length is determined IN `AUTH_PASSWORD_VALIDATORS -> UserAttributeSimilarityValidator -> OPTIONS -> min_length`

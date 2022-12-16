@@ -1,8 +1,13 @@
 import os
+import json
 import warnings
 from distutils.util import strtobool
 from django.utils.translation import gettext_lazy as _
 from os.path import dirname
+
+for key, value in json.loads(open('../.env.json').read()).items():
+    os.environ[key] = value
+
 
 warnings.simplefilter('error', DeprecationWarning)
 
@@ -90,12 +95,18 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 if os.environ.get('EMAIL_HOST'):
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
     EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
     EMAIL_HOST_USER = ''
     EMAIL_HOST_PASSWORD = ''
     EMAIL_PORT = 1025
     EMAIL_USE_TLS = False
+elif os.environ.get('EMAIL_HOST_USER') and os.environ.get('EMAIL_HOST_USER'):
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
