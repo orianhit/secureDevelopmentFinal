@@ -7,8 +7,7 @@ class CustomTokenGenerator(PasswordResetTokenGenerator):
     reset mechanism.
     """
     key_salt = "accounts.CustomTokenGenerator"
-    algorithm = None
-    secret = 'sha1'
+    algorithm = 'sha1'
 
 
 custom_token_generator = CustomTokenGenerator()

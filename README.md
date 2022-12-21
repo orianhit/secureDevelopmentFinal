@@ -1,9 +1,10 @@
-## NOTICE should run before start:
+# NOTICE !!!
+## should run before start:
 1. In order to create CA, run this commands in git bash
    1. `cd .\source\`
    2. `openssl req -x509 -nodes -new -sha256 -days 1024 -newkey rsa:2048 -keyout RootCA.key -out RootCA.pem -subj "/C=US/CN=Example-Root-CA"`
    3. `openssl x509 -outform pem -in RootCA.pem -out RootCA.crt`
-2. create files with this content (docker-compose envs):
+2. create files with this content (docker-compose envs) in your project root:
    1. env for mysql
       1. file_name: `.env.mysql`
       2. content: 
@@ -23,7 +24,7 @@ IS_PRODUCTION=1
 DEBUG=0
 EMAIL_HOST=smtp
 ```
-    3. env for application if we want REAL email sending
+   3. env for application if we want REAL email sending
         1. file_name: `.env.application`
         2. content:
 ```ini
@@ -52,7 +53,7 @@ EMAIL_HOST_USER=securedevelopmentfinal@gmail.com
   - In `/accounts/sign-up/` should be under first name
   - In `/accounts/log-in/` should be under name
 
-## ESS
+## XSS
 - should change config `BWAPP_XSS` to `True`
 - Use this text for example `<script>alert('XSS');</script>`
   - In `/accounts/customer/` should be under name
