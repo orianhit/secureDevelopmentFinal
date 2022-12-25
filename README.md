@@ -40,7 +40,10 @@ EMAIL_HOST_USER=securedevelopmentfinal@gmail.com
 5. Blacklisted password should be in `blacklist_passwords.txt` all lower-cased!
 6. Password hash is determined using `PASSWORD_HASHERS=` options is in https://docs.djangoproject.com/en/4.1/topics/auth/passwords/
 
-7. password dict is from https://github.com/danielmiessler/SecLists/tree/aad07fff50ca37af2926de4d07ff670bf3416fbc/Passwords
+## Known Passwords
+- 10_million_password_list_top_100000.txt from `https://github.com/wikimedia/common-passwords`
+- 500-worst-passwords.txt from `https://github.com/danielmiessler/SecLists/tree/master/Passwords`
+- xato-net-10-million-passwords-dup.txt from `https://github.com/danielmiessler/SecLists/tree/master/Passwords`
 
  
 ## SQL INJECTION
