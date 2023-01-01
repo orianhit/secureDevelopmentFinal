@@ -15,9 +15,10 @@ ALLOWED_HOSTS = [
 
 SITE_ID = 1
 
+PLAIN_TEXT_PASSWORDS = strtobool(os.environ.get('BWAPP_PLAIN_TEXT', 'False'))
+
 PASSWORD_HASHERS = [
-    'accounts.hashers.CustomPasswordHasher',
-    # 'accounts.hashers.BadPasswordHasher',
+    'accounts.hashers.BadPasswordHasher' if PLAIN_TEXT_PASSWORDS else 'accounts.hashers.CustomPasswordHasher',
 ]
 
 INSTALLED_APPS = [
