@@ -3,7 +3,7 @@
 ## should run before start:
 1. In order to create CA, run this commands in git bash
    1. `cd .\source\`
-   2. `openssl req -x509 -nodes -new -sha256 -days 1024 -newkey rsa:2048 -keyout RootCA.key -out RootCA.pem -subj "/C=US/CN=Example-Root-CA"`
+   2. `openssl req -x509 -nodes -new -sha256 -days 1024 -newkey rsa:2048 -keyout RootCA.key -out RootCA.pem -subj "//C=US//CN=Example-Root-CA"`
    3. `openssl x509 -outform pem -in RootCA.pem -out RootCA.crt`
 2. create files with this content (docker-compose envs) in your project root:
    1. env for mysql
