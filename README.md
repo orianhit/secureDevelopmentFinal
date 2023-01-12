@@ -41,6 +41,7 @@ and then open `https://127.0.0.1:9000` in your browser
  
 ## SQL INJECTION
 - should change config (`docker-compose.yaml`)`BWAPP_SQLI` to `True`
+- implementation is in `source/accounts/views.py`
 - Use this texts for example:
    - sqlite3 (local): `' UNION SELECT 1,2,name FROM sqlite_master --`
      - `' UNION SELECT 1,username,password FROM auth_user --`
@@ -55,6 +56,7 @@ and then open `https://127.0.0.1:9000` in your browser
 
 ## XSS
 - should change config (`docker-compose.yaml`) `BWAPP_XSS` to `True`
+- implemented in `source/accounts/context_processors.py` and `source/accounts/templates/accounts/customer_create.html`
 - Use this text for example `<script>alert('XSS');</script>`
 - In those urls:
   - In `/accounts/customer/` should be under name

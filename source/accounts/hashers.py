@@ -5,7 +5,7 @@ from django.utils.crypto import constant_time_compare
 
 
 class CustomPasswordHasher(BasePasswordHasher):
-    algorithm = "cstm"
+    algorithm = "cstm" # custom password hasher
     iterations = 260000
     # digest = hashlib.sha256
 
